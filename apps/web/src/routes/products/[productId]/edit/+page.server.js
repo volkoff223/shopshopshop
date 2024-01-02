@@ -28,9 +28,13 @@ export const actions = {
 		const formData = await request.formData();
 
 		const thumbnail = formData.get('thumbnail');
+		const images = formData.get('images');
 
 		if (thumbnail.size === 0) {
 			formData.delete('thumbnail');
+		}
+		if (images.size === 0) {
+			formData.delete('images');
 		}
 
 		try {
@@ -45,6 +49,17 @@ export const actions = {
 	deleteThumbnail: async ({ locals, params }) => {
 		try {
 			await locals.pb.collection('products').update(params.productId, { thumbnail: null });
+		} catch (err) {
+			console.log('Error: ', err);
+			throw error(err.status, err.message);
+		}
+		return {
+			success: true
+		};
+	},
+	deleteImages: async ({ locals, params }) => {
+		try {
+			await locals.pb.collection('products').update(params.productId, { images: null });
 		} catch (err) {
 			console.log('Error: ', err);
 			throw error(err.status, err.message);

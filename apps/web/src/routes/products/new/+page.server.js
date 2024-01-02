@@ -16,9 +16,13 @@ export const actions = {
 		const formData = await request.formData();
 
 		const images = formData.get('images');
+		const thumbnail = formData.get('thumbnail');
 
 		if (images.size === 0) {
 			formData.delete('images');
+		}
+		if (thumbnail.size === 0) {
+			formData.delete('thumbnail');
 		}
 		try {
 			await locals.pb.collection('products').create(formData);
